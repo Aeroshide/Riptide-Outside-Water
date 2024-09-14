@@ -1,5 +1,6 @@
 package com.aerohide.riptide_outside_water.mixins;
 
+import com.aerohide.riptide_outside_water.Riptide_outside_water;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
@@ -77,7 +78,7 @@ public class TridentItemMixin<T> extends Item {
 
                     playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
                     if (RiptideLevel > 0) {
-                        ((PlayerEntity) user).getItemCooldownManager().set(stack.getItem(), 200);
+                        ((PlayerEntity) user).getItemCooldownManager().set(stack.getItem(), Riptide_outside_water.cooldownTime);
                         float f = playerEntity.getYaw();
                         float g = playerEntity.getPitch();
                         float h = -MathHelper.sin(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);

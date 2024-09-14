@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "riptide_outside_water",
+  "version": "${version}",
+
+  "name": "Riptide Outside Water",
+  "description": "Lets the player Riptide outside of water",
+  "authors": ["Aeroshide"],
+  "contact": {
+    "repo": "https://github.com/Aeroshide/BoostedExperience"
+  },
+
+  "license": "GPL-3.0",
+  "icon": "assets/riptide_outside_water/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": ["com.aerohide.riptide_outside_water.client.Riptide_outside_waterClient"],
+    "main": ["com.aerohide.riptide_outside_water.Riptide_outside_water"]
+  },
+
+  "mixins": [
+    "riptide_outside_water.mixins.json"
+    ,{
+      "config": "riptide_outside_water.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": ">=${minecraft_version}",
+    "rose_bush": ">=1.1.2"
+  }
+}
