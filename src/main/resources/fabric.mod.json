@@ -15,16 +15,11 @@
 
   "environment": "*",
   "entrypoints": {
-    "client": ["com.aerohide.riptide_outside_water.client.Riptide_outside_waterClient"],
     "main": ["com.aerohide.riptide_outside_water.Riptide_outside_water"]
   },
 
   "mixins": [
     "riptide_outside_water.mixins.json"
-    ,{
-      "config": "riptide_outside_water.client.mixins.json",
-      "environment": "client"
-    }
   ],
 
   "depends": {
