@@ -18,8 +18,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -43,6 +43,8 @@ public abstract class PlayerEntityMixin extends LivingEntity{
     @Shadow public abstract ItemCooldownManager getItemCooldownManager();
 
 
+    @Shadow public abstract Arm getMainArm();
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -52,7 +54,7 @@ public abstract class PlayerEntityMixin extends LivingEntity{
 
         if (this.getMainHandStack().getItem() == Items.TRIDENT && this.isTouchingWaterOrRain() && refresh)
         {
-            this.getItemCooldownManager().remove(this.getMainHandStack().getItem());
+            this.getItemCooldownManager().remove(this.getItemCooldownManager().getGroup(this.getMainHandStack()));
         }
 
 

@@ -14,8 +14,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -39,13 +39,13 @@ public class TridentItemMixin<T> extends Item {
     @Unique
     boolean useOutsideWater = false;
     @Inject(method = "use", at = @At("HEAD"), cancellable = true, require = 0)
-    private void useTrident(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+    private void useTrident(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         useOutsideWater = false;
         if (!user.isTouchingWaterOrRain() && EnchantmentHelper.getTridentSpinAttackStrength(user.getStackInHand(hand), user) > 0.0F)
         {
             useOutsideWater = true;
             user.setCurrentHand(hand);
-            cir.setReturnValue(TypedActionResult.consume(user.getStackInHand(hand)));
+            cir.setReturnValue(ActionResult.CONSUME);
             cir.cancel();
         }
 
@@ -55,7 +55,7 @@ public class TridentItemMixin<T> extends Item {
     @Redirect(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isTouchingWaterOrRain()Z"))
     public boolean empty2(PlayerEntity instance) {
         if (useOutsideWater)
-            instance.getItemCooldownManager().set(instance.getStackInHand(instance.getActiveHand()).getItem(), cooldownTime);
+            instance.getItemCooldownManager().set(instance.getStackInHand(instance.getActiveHand()), cooldownTime);
         return true;
     }
 

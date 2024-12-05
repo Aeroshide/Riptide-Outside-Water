@@ -13,7 +13,7 @@ public class Riptide_outside_water implements ModInitializer {
     public static final Logger LOG = LogManager.getLogger("RiptideOutsideWater");
     public static int cooldownTime = 200;
     public static boolean refresh = true;
-    public static Config config = Config.getInstance("config/RiptideOutsideWater.json");
+    public static Config config = new Config("config/RiptideOutsideWater.json");
 
     @Override
     public void onInitialize() {
