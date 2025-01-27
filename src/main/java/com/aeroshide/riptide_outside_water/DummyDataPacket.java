@@ -1,4 +1,4 @@
-package com.aerohide.riptide_outside_water;
+package com.aeroshide.riptide_outside_water;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;

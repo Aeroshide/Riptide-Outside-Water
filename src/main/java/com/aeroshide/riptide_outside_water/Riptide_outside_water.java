@@ -1,16 +1,15 @@
-package com.aerohide.riptide_outside_water;
+package com.aeroshide.riptide_outside_water;
 
+import com.mojang.datafixers.TypeRewriteRule;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.item.Item;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.aeroshide.rose_bush.config.Config;
@@ -21,7 +20,7 @@ public class Riptide_outside_water implements ModInitializer {
     public static int cooldownTime = 200;
     public static boolean refresh = true;
     public static Config config = new Config("config/RiptideOutsideWater.json");
-    public static boolean legal = false;
+    public static boolean serverAllowMod = false;
 
     @Override
     public void onInitialize() {
@@ -38,13 +37,14 @@ public class Riptide_outside_water implements ModInitializer {
         refresh = ((boolean) config.getOption("refreshCooldownOnTouchingWaterOrRain"));
 
 
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            PacketByteBuf buffer = new PacketByteBuf(PacketByteBufs.create());
-            CustomDataPayload payload = new CustomDataPayload(new int[]{123, 456});
-            payload.write(buffer);
+        PayloadTypeRegistry.playS2C().register(AllowModPayload.ID, AllowModPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(AllowModPayload.ID, AllowModPayload.CODEC);
 
-            sender.sendPacket(payload);
+        ServerPlayNetworking.registerGlobalReceiver(AllowModPayload.ID, (payload, context) -> {
+            context.server().execute(() -> {
+                serverAllowMod = payload.toggle();
+                Riptide_outside_water.LOG.info("toggled AllowMod: " + serverAllowMod + "| Signal was: " + payload.toggle());
+            });
         });
-
     }
 }
