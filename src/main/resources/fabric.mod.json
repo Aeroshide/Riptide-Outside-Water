@@ -15,7 +15,12 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": ["com.aerohide.riptide_outside_water.Riptide_outside_water"]
+    "main": [
+      "com.aeroshide.riptide_outside_water.Riptide_outside_water"
+    ],
+    "client": [
+      "com.aeroshide.riptide_outside_water.RiptideOutsideWaterClient"
+    ]
   },
 
   "mixins": [
