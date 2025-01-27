@@ -1,5 +1,6 @@
 package com.aerohide.riptide_outside_water.mixins;
 
+import com.aerohide.riptide_outside_water.RiptideOutsideWaterClient;
 import com.aerohide.riptide_outside_water.Riptide_outside_water;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -41,7 +42,7 @@ public class TridentItemMixin<T> extends Item {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true, require = 0)
     private void useTrident(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         useOutsideWater = false;
-        if (!user.isTouchingWaterOrRain() && EnchantmentHelper.getTridentSpinAttackStrength(user.getStackInHand(hand), user) > 0.0F)
+        if ((!user.isTouchingWaterOrRain() && EnchantmentHelper.getTridentSpinAttackStrength(user.getStackInHand(hand), user) > 0.0F) && Riptide_outside_water.legal)
         {
             useOutsideWater = true;
             user.setCurrentHand(hand);
