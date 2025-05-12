@@ -4,6 +4,7 @@
   "package": "com.aeroshide.riptide_outside_water.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EntityMixin",
     "PlayerEntityMixin",
     "PlayerManagerMixin",
     "TridentItemMixin"

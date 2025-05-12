@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
+import static com.aeroshide.riptide_outside_water.RiptideOutsideWaterClient.useOutsideWater;
 import static com.aeroshide.riptide_outside_water.Riptide_outside_water.cooldownTime;
 
 
@@ -34,20 +35,21 @@ public class TridentItemMixin<T> extends Item {
         super(settings);
     }
 
-    @Unique
-    boolean useOutsideWater = false;
+
     @Inject(method = "use", at = @At("HEAD"), cancellable = true, require = 0)
     private void useTrident(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        useOutsideWater = false;
 
 
+        /*
         if ((!user.isTouchingWaterOrRain() && EnchantmentHelper.getTridentSpinAttackStrength(user.getStackInHand(hand), user) > 0.0F) && (!world.isClient || RiptideOutsideWaterClient.clientAllowMod))
         {
             useOutsideWater = true;
             user.setCurrentHand(hand);
             cir.setReturnValue(ActionResult.CONSUME);
-            cir.cancel();
+            //cir.cancel();
         }
+        /**
+         */
 
     }
 

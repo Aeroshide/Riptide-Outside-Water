@@ -6,6 +6,8 @@ import net.fabricmc.loader.impl.util.log.Log;
 
 public class RiptideOutsideWaterClient implements ClientModInitializer {
     public static boolean clientAllowMod = false;
+
+    public static boolean useOutsideWater = false;
     @Override
     public void onInitializeClient() {
         ClientPlayNetworking.registerGlobalReceiver(AllowModPayload.ID, (payload, context) -> {
