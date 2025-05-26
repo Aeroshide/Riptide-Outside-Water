@@ -6,6 +6,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Arm;
 import net.minecraft.world.World;
@@ -27,6 +29,8 @@ public abstract class PlayerEntityMixin extends LivingEntity{
 
     @Shadow public abstract Arm getMainArm();
 
+    @Shadow public abstract PlayerInventory getInventory();
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -34,12 +38,15 @@ public abstract class PlayerEntityMixin extends LivingEntity{
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
 
-        if (this.getMainHandStack().getItem() == Items.TRIDENT && this.isTouchingWaterOrRain() && refresh)
+        if (this.isTouchingWaterOrRain() && refresh)
         {
-            this.getItemCooldownManager().remove(this.getItemCooldownManager().getGroup(this.getMainHandStack()));
+            for (ItemStack itemStack : this.getInventory().getMainStacks()) {
+                if (itemStack != null && itemStack.getItem() == Items.TRIDENT) {
+                    this.getItemCooldownManager().remove(this.getItemCooldownManager().getGroup(itemStack));
+                    break;
+                }
+            }
         }
-
-
     }
 
 }
