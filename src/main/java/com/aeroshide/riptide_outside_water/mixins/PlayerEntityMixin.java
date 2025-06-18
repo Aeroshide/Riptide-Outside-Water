@@ -40,11 +40,16 @@ public abstract class PlayerEntityMixin extends LivingEntity{
 
         if (this.isTouchingWaterOrRain() && refresh)
         {
+            ItemStack offhandStack = this.getOffHandStack();
             for (ItemStack itemStack : this.getInventory().getMainStacks()) {
                 if (itemStack != null && itemStack.getItem() == Items.TRIDENT) {
                     this.getItemCooldownManager().remove(this.getItemCooldownManager().getGroup(itemStack));
                     break;
                 }
+            }
+
+            if (offhandStack != null && offhandStack.getItem() == Items.TRIDENT) {
+                this.getItemCooldownManager().remove(this.getItemCooldownManager().getGroup(offhandStack));
             }
         }
     }
