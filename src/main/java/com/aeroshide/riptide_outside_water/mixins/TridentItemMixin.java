@@ -42,14 +42,14 @@ public class TridentItemMixin<T> extends Item {
     private void useTrident(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         boolean canSpin = !user.isTouchingWaterOrRain()
                 && EnchantmentHelper.getTridentSpinAttackStrength(user.getStackInHand(hand), user) > 0.0F
-                && (!world.isClient || (RiptideOutsideWaterClient.clientAllowMod  // or your DataTracker flag
+                && (!world.isClient() || (RiptideOutsideWaterClient.clientAllowMod  // or your DataTracker flag
                 || MinecraftClient.getInstance().isIntegratedServerRunning()));
 
         if (canSpin) {
             useOutsideWater = true;
             user.setCurrentHand(hand);
 
-            if (world.isClient) {
+            if (world.isClient()) {
                 cir.setReturnValue(ActionResult.SUCCESS);
             } else {
                 cir.setReturnValue(ActionResult.CONSUME);
@@ -62,7 +62,7 @@ public class TridentItemMixin<T> extends Item {
 
     @Redirect(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isTouchingWaterOrRain()Z"))
     public boolean empty2(PlayerEntity instance) {
-        if (useOutsideWater && !instance.getWorld().isClient) {
+        if (useOutsideWater && !instance.getEntityWorld().isClient()) {
             instance.getItemCooldownManager().set(instance.getStackInHand(instance.getActiveHand()), cooldownTime);
             useOutsideWater = false;
         }

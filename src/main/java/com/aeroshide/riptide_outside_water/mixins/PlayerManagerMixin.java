@@ -35,7 +35,7 @@ public abstract class PlayerManagerMixin {
 
     @Inject(method = "onPlayerConnect", at = @At("RETURN"))
     private void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci) {
-        if (!player.getServer().isSingleplayer()) {
+        if (!player.getEntityWorld().getServer().isSingleplayer()) {
             ServerPlayNetworking.send(player, new AllowModPayload(true));
             Riptide_outside_water.LOG.info("server tries to toggle Allowmod");
         }
@@ -45,7 +45,7 @@ public abstract class PlayerManagerMixin {
 
     @Inject(method = "remove", at = @At("RETURN"))
     private void onPlayerDisconnect(ServerPlayerEntity player, CallbackInfo ci) {
-        if (!player.getServer().isSingleplayer())
+        if (!player.getEntityWorld().getServer().isSingleplayer())
         {
             ServerPlayNetworking.send(player, new AllowModPayload(false));
             Riptide_outside_water.LOG.info("server tries to toggle Allowmod");

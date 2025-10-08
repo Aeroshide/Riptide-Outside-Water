@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.11-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -93,7 +93,6 @@ allprojects {
         if (JavaVersion.current() < javaVersion) {
             toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
         }
-        archivesBaseName = project.archives_base_name
         // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
         // if it is present.
         // If you remove this line, sources will not be generated.

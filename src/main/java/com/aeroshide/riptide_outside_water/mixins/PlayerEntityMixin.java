@@ -26,9 +26,6 @@ public abstract class PlayerEntityMixin extends LivingEntity{
 
     @Shadow public abstract ItemCooldownManager getItemCooldownManager();
 
-
-    @Shadow public abstract Arm getMainArm();
-
     @Shadow public abstract PlayerInventory getInventory();
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {

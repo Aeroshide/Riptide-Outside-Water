@@ -30,6 +30,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "minecraft": ">=${minecraft_version}",
-    "rose_bush": ">=1.1.2"
+    "rose_bush": ">=1.1.2",
+    "fabric-networking-api-v1": "*"
   }
 }
