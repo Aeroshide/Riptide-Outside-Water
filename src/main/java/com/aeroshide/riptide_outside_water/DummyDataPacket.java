@@ -1,23 +1,21 @@
 package com.aeroshide.riptide_outside_water;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.PacketType;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.PacketType;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 
-public class DummyDataPacket implements Packet<ClientPlayPacketListener> {
+public class DummyDataPacket implements Packet<@org.jetbrains.annotations.NotNull ClientGamePacketListener> {
 
     public DummyDataPacket(int data) {
     }
 
     @Override
-    public PacketType<? extends Packet<ClientPlayPacketListener>> getPacketType() {
+    public PacketType<? extends Packet<ClientGamePacketListener>> type() {
         return null;
     }
 
     @Override
-    public void apply(ClientPlayPacketListener listener) {
-
+    public void handle(ClientGamePacketListener packetListener) {
 
     }
 }

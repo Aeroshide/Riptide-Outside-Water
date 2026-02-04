@@ -9,29 +9,48 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.aeroshide.rose_bush.config.Config;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class Riptide_outside_water implements ModInitializer {
 
     public static final Logger LOG = LogManager.getLogger("RiptideOutsideWater");
     public static int cooldownTime = 200;
     public static boolean refresh = true;
-    public static Config config = new Config("config/RiptideOutsideWater.json");
-    public static boolean serverAllowMod = false;
+    public static Config config;
+
+    static {
+        try {
+            config = new Config(Path.of("config/RiptideOutsideWater.json"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean serverAllowMod = true;
 
     @Override
     public void onInitialize() {
 
         if (config.getOption("appliedCooldown") == null)
         {
-            config.setOption("appliedCooldown", 200.0);
+            try {
+                config.setOption("appliedCooldown", 200.0);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         if (config.getOption("refreshCooldownOnTouchingWaterOrRain") == null)
         {
-            config.setOption("refreshCooldownOnTouchingWaterOrRain", true);
+            try {
+                config.setOption("refreshCooldownOnTouchingWaterOrRain", true);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         cooldownTime = ((Double) config.getOption("appliedCooldown")).intValue();
         refresh = ((boolean) config.getOption("refreshCooldownOnTouchingWaterOrRain"));

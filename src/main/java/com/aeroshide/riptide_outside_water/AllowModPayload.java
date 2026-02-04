@@ -1,21 +1,19 @@
 package com.aeroshide.riptide_outside_water;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 
 
-public record AllowModPayload(boolean toggle) implements CustomPayload {
-    public static final CustomPayload.Id<AllowModPayload> ID = new CustomPayload.Id<>(Identifier.of("aeroshide", "custom_data"));
-    public static final PacketCodec<PacketByteBuf, AllowModPayload> CODEC =
-            PacketCodec.tuple(PacketCodecs.BOOLEAN, AllowModPayload::toggle, AllowModPayload::new);
+public record AllowModPayload(boolean toggle) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<AllowModPayload> ID = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("aeroshide", "custom_data"));
+    public static final StreamCodec<FriendlyByteBuf, AllowModPayload> CODEC =
+            StreamCodec.composite(ByteBufCodecs.BOOL, AllowModPayload::toggle, AllowModPayload::new);
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return ID;
     }
 }
