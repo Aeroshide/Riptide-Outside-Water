@@ -5,7 +5,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NonNull;
 
 
 public record AllowModPayload(boolean toggle) implements CustomPacketPayload {
@@ -14,7 +13,7 @@ public record AllowModPayload(boolean toggle) implements CustomPacketPayload {
             StreamCodec.composite(ByteBufCodecs.BOOL, AllowModPayload::toggle, AllowModPayload::new);
 
     @Override
-    public @NonNull Type<? extends CustomPacketPayload> type() {
+    public Type<? extends CustomPacketPayload> type() {
         return ID;
     }
 }
